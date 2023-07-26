@@ -1,4 +1,5 @@
-import { createShaderProgram } from "../utils/util";
+import { createShaderProgram, createTexture } from "../utils/util";
+import texture1 from '../assets/texture1.jpg';
 
 export function textureDemo(){
   const canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -83,27 +84,13 @@ export function textureDemo(){
   );
 
   // 创建纹理
-  let texture = gl.createTexture();
+  let texture = createTexture(gl);
   const image = new Image();
-  image.src = "../../assets/texture.jpeg";
-  // 绑定纹理
-  gl.bindTexture(gl.TEXTURE_2D, texture);
-  // 传递纹理数据
+  image.src = texture1;
   image.onload = function () {
-    console.log("image loaded", image)
-   
+    console.log("image loaded", image);
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1); // 纹理坐标系与canvas坐标系Y轴相反，需要进行Y轴翻转
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-  
-    // 这告诉WebGL如果纹理需要被缩小时，采用线性插值的方式来进行采样
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    // 这告诉WebGL如果纹理需要被方法时，采用线性插值的方式来进行采样
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-    // 告诉WebGL如果纹理坐标超出了s坐标的最大/最小值，直接取边界值
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    // 告诉WebGL如果纹理坐标超出了t坐标的最大/最小值，直接取边界值
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-
     gl.drawArrays(gl.TRIANGLES, 0, 6);
   }
 }
