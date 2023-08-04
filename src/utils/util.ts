@@ -1,4 +1,9 @@
 /**
+ * compile the shaders and link into a program
+ * 可用 webglUtils.createProgramFromScripts
+ */
+
+/**
  * create shader
  * @param gl 
  * @param type 
